@@ -55,138 +55,38 @@
             .catch(errorHandler);
     }
 
+    function setTextArea(textValue) {
+        var textArea = document.getElementById("dataOOXML");
+        var currentResult = textValue;
+        while (textArea.hasChildNodes()) {
+            textArea.removeChild(textArea.lastChild);
+            //report.innerText = "";
+        };
+        setTimeout(function () {
+            textArea.appendChild(document.createTextNode(currentResult));
+            //report.innerText = "The getOOXML function succeeded!";
+        }, 400);
+    }
+
+    function setDeontic() {
+        var functionsToExecute = [];
+        functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
+        functionsToExecute.push(function () { buildGraph(); });
+        functionsToExecute.push(function () { setDeonticMarker(); });
+
+        dataSelectorGetText(functionsToExecute);
+    }
+
     function getText() {
-        Word.run(function (context) {
-            // Queue a command to get the current selection and then
-            // create a proxy range object with the results.
-            var range = context.document.getSelection();
-
-            // This variable will keep the search results for the longest word.
-            var searchResults;
-
-
-
-            // Queue 
-            context.load(range, 'text');
-
-            // Synchronize the document state by executing the queued commands
-            // and return a promise to indicate task completion.
-            return context.sync()
-                .then(function () {
-
-                    Office.context.document.getSelectedDataAsync(
-                        Office.CoercionType.Text,
-                        { asyncContext: 'Some related info' },
-                        function (result) {
-                            if (result.status === Office.AsyncResultStatus.Failed) {
-                                write('Action failed. Error: ' + result.error.message);
-                            }
-                            else {
-                                // var output = String.format(
-                                //   'Selected text: {0}<br/>Passed info: {1}',
-                                // result.value, result.asyncContext);
-                                var textArea = document.getElementById("dataOOXML");
-                                var currentResult = result.value;
-                                while (textArea.hasChildNodes()) {
-                                    textArea.removeChild(textArea.lastChild);
-                                    //report.innerText = "";
-                                };
-                                setTimeout(function () {
-                                    textArea.appendChild(document.createTextNode(currentResult));
-                                    //report.innerText = "The getOOXML function succeeded!";
-                                }, 400);
-
-
-                                //$('#result-text').text(result.value);
-                            }
-                        }
-                    );
-                    // Get the longest word from the selection.
-                    /*var words = range.text.split(/\s+/);
-                    var longestWord = words.reduce(function (word1, word2) { return word1.length > word2.length ? word1 : word2; });
-
-                    // Queue a search command.
-                    searchResults = range.search(longestWord, { matchCase: true, matchWholeWord: true });
-
-                    // Queue a commmand to load the font property of the results.
-                    context.load(searchResults, 'font');*/
-                })
-                .then(context.sync)
-                /*.then(function () {
-                    // Queue a command to highlight the search results.
-                    //searchResults.items[0].font.highlightColor = '#FFFF00'; // Yellow
-                    //searchResults.items[0].font.bold = true;
-                })
-                .then(context.sync)*/;
-        })
-            .catch(errorHandler);
+        var functionsToExecute = [];
+        functionsToExecute.push(function() { setTextArea(dataSelectorSelectedText) });
+        dataSelectorGetText(functionsToExecute);
     }
 
     function getOOXML() {
-        Word.run(function (context) {
-            // Queue a command to get the current selection and then
-            // create a proxy range object with the results.
-            var range = context.document.getSelection();
-
-            // This variable will keep the search results for the longest word.
-            var searchResults;
-
-
-
-            // Queue 
-            context.load(range, 'text');
-
-            // Synchronize the document state by executing the queued commands
-            // and return a promise to indicate task completion.
-            return context.sync()
-                .then(function () {
-
-                    Office.context.document.getSelectedDataAsync(
-                        Office.CoercionType.Ooxml,
-                        { asyncContext: 'Some related info' },
-                        function (result) {
-                            if (result.status === Office.AsyncResultStatus.Failed) {
-                                write('Action failed. Error: ' + result.error.message);
-                            }
-                            else {
-                                // var output = String.format(
-                                //   'Selected text: {0}<br/>Passed info: {1}',
-                                // result.value, result.asyncContext);
-                                var textArea = document.getElementById("dataOOXML");
-                                var currentResult = result.value;
-                                while (textArea.hasChildNodes()) {
-                                    textArea.removeChild(textArea.lastChild);
-                                    //report.innerText = "";
-                                };
-                                setTimeout(function () {
-                                    textArea.appendChild(document.createTextNode(currentResult));
-                                    //report.innerText = "The getOOXML function succeeded!";
-                                }, 400);
-
-
-                                //$('#result-text').text(result.value);
-                            }
-                        }
-                    );
-                    // Get the longest word from the selection.
-                    /*var words = range.text.split(/\s+/);
-                    var longestWord = words.reduce(function (word1, word2) { return word1.length > word2.length ? word1 : word2; });
-
-                    // Queue a search command.
-                    searchResults = range.search(longestWord, { matchCase: true, matchWholeWord: true });
-
-                    // Queue a commmand to load the font property of the results.
-                    context.load(searchResults, 'font');*/
-                })
-                .then(context.sync)
-                /*.then(function () {
-                    // Queue a command to highlight the search results.
-                    //searchResults.items[0].font.highlightColor = '#FFFF00'; // Yellow
-                    //searchResults.items[0].font.bold = true;
-                })
-                .then(context.sync)*/;
-        })
-            .catch(errorHandler);
+        var functionsToExecute = [];
+        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody) });
+        dataSelectorGetOOXML(functionsToExecute);
     }
 
     function setOOXML() {

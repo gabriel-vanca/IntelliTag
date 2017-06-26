@@ -1,18 +1,20 @@
-﻿//require("./Node.js");
+﻿function buildGraph(string) {
+    var ascendentNode = null;
 
-var Graph = [];
 
-function buildGraph(string) {
-    var previousNode = null;
-    Graph = null;
 }
 
-function createNode(openTag, closeTag, previousNode, text) {
-    if (previousNode) {
-        previousNode.listOfNextNodes.push(this);
+function createNode(_openTag, _closeTag, _ascendentNode, _textValue) {
+
+    var node = {
+        ascendentNode: _ascendentNode,
+        openTag: _openTag,
+        closeTag: _closeTag,
+        textValue: _textValue,
+        listOfDescendentNodes: []
     }
-    this.previousNode = previousNode;
-    this.openTag = openTag;
-    this.closeTag = closeTag;
-    this.text = text;
+
+    if (previousNode) {
+        previousNode.listOfDescendentNodes.push(node);
+    }
 }
