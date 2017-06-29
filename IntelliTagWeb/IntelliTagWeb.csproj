@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="Engine\DataSelector.js" />
     <Content Include="Engine\Marker.js" />
+    <Content Include="Engine\StringParsing.js" />
     <Content Include="Objects\Graph.js" />
     <Content Include="packages.config" />
     <None Include="Properties\Settings.settings">

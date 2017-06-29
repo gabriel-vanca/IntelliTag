@@ -25,6 +25,7 @@
             $('#GetText-button-text').text("Get Text!");
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");
+            $('#SetDeontic-button-text').text("Set Deontic!");
             //$('#button-desc').text("Highlights the longest word.");
 
             loadSampleData();
@@ -33,6 +34,7 @@
             $('#GetText-button').click(getText);
             $('#GetOOXML-button').click(getOOXML);
             $('#SetOOXML-button').click(setOOXML);
+            $('#SetDeontic-button').click(setDeontic);
         });
     };
 
@@ -71,8 +73,8 @@
     function setDeontic() {
         var functionsToExecute = [];
         functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
-        functionsToExecute.push(function () { buildGraph(); });
-        functionsToExecute.push(function () { setDeonticMarker(); });
+        functionsToExecute.push(function () { setDeonticMarker(functionsToExecute); });
+        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody) });
 
         dataSelectorGetText(functionsToExecute);
     }
@@ -91,53 +93,8 @@
 
     function setOOXML() {
 
-        //Sets the currentOOXML variable to the current contents of the task pane text area
-        var textArea = document.getElementById("dataOOXML");
-        var currentOOXML = document.getElementById("dataOOXML").textContent;
-
-        // Remove all nodes from the status Div so we have a clean space to write to
-        // while (report.hasChildNodes()) {
-        //   report.removeChild(report.lastChild);
-        //}
-
-        // Check whether we have OOXML in the variable
-        if (currentOOXML != "") {
-
-            // Call the setSelectedDataAsync, with parameters of:
-            // 1. The Data to insert.
-            // 2. The coercion type for that data.
-            // 3. A callback function that lets us know if it succeeded.
-
-
-            Office.context.document.setSelectedDataAsync(
-                currentOOXML, { coercionType: "ooxml" },
-                function (result) {
-                    // Tell the user we succeeded and then clear the message after a 2 second delay
-                    if (result.status == "succeeded") {
-                        /*      report.innerText = "The setOOXML function succeeded!";
-                              setTimeout(function () {
-                                  report.innerText = "";
-                              }, 2000);*/
-                    }
-                    else {
-                        // This runs if the getSliceAsync method does not return a success flag
-                        //      report.innerText = result.error.message;
-                        write(result.error.message);
-                        // Clear the text area just so we don't give you the impression that there's
-                        // valid OOXML waiting to be inserted... 
-                        while (textArea.hasChildNodes()) {
-                            textArea.removeChild(textArea.lastChild);
-                        }
-                    }
-                });
-        }
-        else {
-
-            // If currentOOXML == "" then we should not even try to insert it, because
-            // that is gauranteed to cause an exception, needlessly.
-            //  report.innerText = "There is currently no OOXML to insert!"
-            //    + " Please select some of your document and click [Get OOXML] first!";
-        }
+        var functionsToExecute = [];
+        dataSelectorSetOOXML(functionsToExecute);
     }
 
 
