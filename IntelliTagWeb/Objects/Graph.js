@@ -1,5 +1,11 @@
 ﻿var Graph;
 
+const INSERT_LOCATION = {
+    Begin: 'begin',
+    End: 'end',
+    Replace: 'replace'
+}
+
 function buildGraph(string) {
     Graph = createNode(null, null, null, null);
     var ascendentNode = Graph;
@@ -96,17 +102,7 @@ function getOOXMLFromGraph() {
     constructOOXMLFromGraph(Graph);
 }
 
-
-//function structureOOXML() {
-//    const indexBegin = window.dataSelectorSelectedOOXML.indexOf("<w:body");
-//    const indexEnd = window.dataSelectorSelectedOOXML.indexOf("</w:body>") + 9;
-//    const documentBegin = window.dataSelectorSelectedOOXML.substring(0, indexBegin);
-//    const documentEnd = window.dataSelectorSelectedOOXML.substring(indexEnd, window.dataSelectorSelectedOOXML.length);
-//    const textBody = window.dataSelectorSelectedOOXML.substring(indexBegin, indexEnd);
-//    window.dataSelectorSelectedOOXML = { documentBegin: documentBegin, textBody: textBody, documentEnd: documentEnd };
-//}
-
-function createNode(_openTag, _closeTag, _ascendentNode, _textValue) {
+function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosition) {
 
     var node = {
         ascendentNode: _ascendentNode,
@@ -117,7 +113,15 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue) {
     }
 
     if (_ascendentNode) {
-        _ascendentNode.listOfDescendentNodes.push(node);
+        if (_insertPosition === INSERT_LOCATION.Replace) {
+            _ascendentNode.listOfDescendentNodes = [];
+            _ascendentNode.listOfDescendentNodes.push(node);
+        }
+        else if (_insertPosition === INSERT_LOCATION.Begin) {
+            _ascendentNode.listOfDescendentNodes.unshift(node);
+        } else {
+            _ascendentNode.listOfDescendentNodes.push(node);
+        }
     }
 
     return node;
@@ -129,16 +133,48 @@ function markText(currentNode, colour, tag) {
         var indexOfPropertyTag = -1;
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
             node = currentNode.listOfDescendentNodes[index];
-            if (node.openTag.indexOf("<w:rPr>") != -1)
+            if (node.openTag.indexOf("<w:rPr>") !== -1 || node.openTag.indexOf("<w:rPr ") !== -1) {
                 indexOfPropertyTag = index;
+            }
+
+            //put here
+
         }
         // only inexistent case is made
         if (indexOfPropertyTag === -1) {
-            var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null);
-//            currentNode.listOfDescendentNodes.unshift(newNode1);
+            var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
             createNode("<w:color w:val=\"" + colour + "\"/>", null, newNode1, null);
-        }
+        } else {
+            var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
+            var freeToAdd = true;
 
+            for (let index = 0; index < propertyTagNode.listOfDescendentNodes.length; index++) {
+                if (propertyTagNode.listOfDescendentNodes[index].openTag.indexOf("<w:color") !== -1) {
+                    freeToAdd = false;
+                    break;
+                }
+            }
+
+            if (freeToAdd === true) {
+                createNode("<w:color w:val=\"" + colour + "\"/>", null, propertyTagNode, null);
+            } else {
+                freeToAdd = true;
+
+                for (let index = 0; index < propertyTagNode.listOfDescendentNodes.length; index++) {
+                    if (propertyTagNode.listOfDescendentNodes[index].openTag.indexOf("<w:highlight") !== -1) {
+                        freeToAdd = false;
+                        break;
+                    }
+                }
+
+                if (freeToAdd === true) {
+                    createNode("<w:highlight w:val=\"" + colour + "\"/>", null, propertyTagNode, null);
+                } else {
+                    //freeToAdd = true;
+                    createNode("<w:bdr w:val=\"single\" w:sz=\"4\" w:space=\"1\" w:color=\"" + colour + "\"/>", null, propertyTagNode, null);
+                }
+            }
+        }
     } else {
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
             node = currentNode.listOfDescendentNodes[index];

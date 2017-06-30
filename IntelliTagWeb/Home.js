@@ -22,19 +22,23 @@
             }
 
             //  $("#template-description").text("This sample highlights the longest word in the text you have selected in the document.");
-            $('#GetText-button-text').text("Get Text!");
+//            $('#GetText-button-text').text("Get Text!");
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");
             $('#SetDeontic-button-text').text("Set Deontic!");
+            $('#SetTemporal-button-text').text("Set Temporal!");
+            $('#SetOperational-button-text').text("Set Operational!");
             //$('#button-desc').text("Highlights the longest word.");
 
             loadSampleData();
 
             // Add a click event handler for the highlight button.
-            $('#GetText-button').click(getText);
+//            $('#GetText-button').click(getText);
             $('#GetOOXML-button').click(getOOXML);
             $('#SetOOXML-button').click(setOOXML);
             $('#SetDeontic-button').click(setDeontic);
+            $('#SetTemporal-button').click(setTemporal);
+            $('#SetOperational-button').click(setOperational);
         });
     };
 
@@ -62,18 +66,28 @@
         var currentResult = textValue;
         while (textArea.hasChildNodes()) {
             textArea.removeChild(textArea.lastChild);
-            //report.innerText = "";
         };
         setTimeout(function () {
             textArea.appendChild(document.createTextNode(currentResult));
-            //report.innerText = "The getOOXML function succeeded!";
         }, 400);
     }
 
     function setDeontic() {
+        setLogic(setDeonticMarker);
+    }
+
+    function setTemporal() {
+        setLogic(setTemporalMarker);
+    }
+
+    function setOperational() {
+        setLogic(setOperationalMarker);
+    }
+
+    function setLogic(setLogicFunction) {
         var functionsToExecute = [];
         functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
-        functionsToExecute.push(function () { setDeonticMarker(functionsToExecute); });
+        functionsToExecute.push(function () { setLogicFunction(functionsToExecute); });
         functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody) });
 
         dataSelectorGetText(functionsToExecute);
@@ -94,9 +108,8 @@
     function setOOXML() {
 
         var functionsToExecute = [];
-        dataSelectorSetOOXML(functionsToExecute);
+        dataSelectorSetOOXML(OOXML_SOURCE.TEXT_AREA, functionsToExecute);
     }
-
 
     function displaySelectedText() {
 
