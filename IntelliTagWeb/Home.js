@@ -44,6 +44,9 @@
 
     function loadSampleData() {
         // Run a batch operation against the Word object model.
+
+        return;
+
         Word.run(function (context) {
             // Create a proxy object for the document body.
             var body = context.document.body;

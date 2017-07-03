@@ -72,6 +72,7 @@
     <Content Include="Engine\StringParsing.js" />
     <Content Include="Objects\Graph.js" />
     <Content Include="packages.config" />
+    <Content Include="Example Document\ISDA 2002 Master Agreement.docx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
