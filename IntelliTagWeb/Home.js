@@ -31,7 +31,9 @@
             //$('#button-desc').text("Highlights the longest word.");
 
             loadSampleData();
+//            addCustomXMLPart();
 
+          //  Office.Comment.add()
             // Add a click event handler for the highlight button.
 //            $('#GetText-button').click(getText);
             $('#GetOOXML-button').click(getOOXML);
@@ -42,10 +44,16 @@
         });
     };
 
+//    function addCustomXMLPart() {
+//        Office.context.document.customXmlParts.addAsync("<book xmlns='NewCustomXmlPart'>" +
+//            "<page number='1'>Hello</page>" +
+//            "<page number='2'>World!</page></book>");
+//    }
+
     function loadSampleData() {
         // Run a batch operation against the Word object model.
 
-        return;
+      //  return;
 
         Word.run(function (context) {
             // Create a proxy object for the document body.

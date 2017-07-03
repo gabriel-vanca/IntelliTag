@@ -3,7 +3,8 @@
 const INSERT_LOCATION = {
     Begin: 'begin',
     End: 'end',
-    Replace: 'replace'
+    Replace: 'replace',
+    Intermediary: 'intermediary'
 }
 
 function buildGraph(string) {
@@ -113,11 +114,18 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosi
     }
 
     if (_ascendentNode) {
-        if (_insertPosition === INSERT_LOCATION.Replace) {
+        if (_insertPosition === INSERT_LOCATION.Intermediary) {
+            node.listOfDescendentNodes = _ascendentNode.listOfDescendentNodes;
             _ascendentNode.listOfDescendentNodes = [];
             _ascendentNode.listOfDescendentNodes.push(node);
-        }
-        else if (_insertPosition === INSERT_LOCATION.Begin) {
+            node.ascendentNode = _ascendentNode;
+            for (let index = 0; index < node.listOfDescendentNodes.length; index++) {
+                node.listOfDescendentNodes[index].ascendentNode = node;
+            }
+        } else if (_insertPosition === INSERT_LOCATION.Replace) {
+            _ascendentNode.listOfDescendentNodes = [];
+            _ascendentNode.listOfDescendentNodes.push(node);
+        } else if (_insertPosition === INSERT_LOCATION.Begin) {
             _ascendentNode.listOfDescendentNodes.unshift(node);
         } else {
             _ascendentNode.listOfDescendentNodes.push(node);
@@ -127,9 +135,23 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosi
     return node;
 }
 
+//function moveAllDescendantNodesToIndermediaryNode(currentNode, intermediaryNode) {
+//    intermediaryNode.listOfDescendentNodes = currentNode.listOfDescendentNodes;
+//    currentNode.listOfDescendentNodes = [];
+//    currentNode.listOfDescendentNodes.push(intermediaryNode);
+//    intermediaryNode.ascendentNode = currentNode;
+//}
+
 function markText(currentNode, colour, tag) {
     var node;
-    if (currentNode.openTag != null && (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
+    if (currentNode.openTag != null &&
+        (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
+        let random = Math.floor(Math.random() * 999999999);
+        node = createNode("<w:bookmarkStart w:id=\"" + random + "\" w:name=\"" + tag + "_" + random + "\"/>", "<w:bookmarkEnd w:id=\"" + random +"\"/>", currentNode, null, INSERT_LOCATION.Intermediary);
+    }
+    else
+        if (currentNode.openTag != null &&
+        (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
         var indexOfPropertyTag = -1;
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
             node = currentNode.listOfDescendentNodes[index];
@@ -171,14 +193,18 @@ function markText(currentNode, colour, tag) {
                     createNode("<w:highlight w:val=\"" + colour + "\"/>", null, propertyTagNode, null);
                 } else {
                     //freeToAdd = true;
-                    createNode("<w:bdr w:val=\"single\" w:sz=\"4\" w:space=\"1\" w:color=\"" + colour + "\"/>", null, propertyTagNode, null);
+                    createNode("<w:bdr w:val=\"single\" w:sz=\"4\" w:space=\"1\" w:color=\"" + colour + "\"/>",
+                        null,
+                        propertyTagNode,
+                        null);
                 }
             }
         }
-    } else {
-        for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
-            node = currentNode.listOfDescendentNodes[index];
-            markText(node, colour, tag);
-        }
+            return;
+        } //else {
+    for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
+        node = currentNode.listOfDescendentNodes[index];
+        markText(node, colour, tag);
+        // }
     }
 }
