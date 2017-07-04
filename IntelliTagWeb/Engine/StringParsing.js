@@ -4,11 +4,6 @@
 
 //    window.dataSelectorSelectedOOXML = { documentBegin: "", textBody: dataSelectorSelectedOOXML, documentEnd: "" };
 
-   // var indexBegin = window.dataSelectorSelectedOOXML.indexOf("<pkg:package");
-   // window.dataSelectorSelectedOOXML = window.dataSelectorSelectedOOXML.substring(indexBegin, window.dataSelectorSelectedOOXML.length);
-
-//    window.dataSelectorSelectedOOXML = { documentBegin: "", textBody: dataSelectorSelectedOOXML, documentEnd: "" };
-
     indexBegin = window.dataSelectorSelectedOOXML.indexOf("<w:body");
     for (; indexBegin < window.dataSelectorSelectedOOXML.length; indexBegin++) {
         if (window.dataSelectorSelectedOOXML.charAt(indexBegin) == ">") {

@@ -7,7 +7,7 @@ const INSERT_LOCATION = {
     Intermediary: 'intermediary'
 }
 
-function buildGraph(string) {
+function buildGraph() {
     Graph = createNode(null, null, null, null);
     var ascendentNode = Graph;
     var tempString = copyString(dataSelectorSelectedOOXML.textBody);
@@ -147,10 +147,12 @@ function markText(currentNode, colour, tag) {
     if (currentNode.openTag != null &&
         (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
         let random = Math.floor(Math.random() * 999999999);
-        node = createNode("<w:bookmarkStart w:id=\"" + random + "\" w:name=\"" + tag + "_" + random + "\"/>", "<w:bookmarkEnd w:id=\"" + random +"\"/>", currentNode, null, INSERT_LOCATION.Intermediary);
-    }
-    else
-        if (currentNode.openTag != null &&
+        node = createNode("<w:bookmarkStart w:id=\"" + random + "\" w:name=\"" + tag + "_" + random + "\"/>",
+            "<w:bookmarkEnd w:id=\"" + random + "\"/>",
+            currentNode,
+            null,
+            INSERT_LOCATION.Intermediary);
+    } else if (currentNode.openTag != null &&
         (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
         var indexOfPropertyTag = -1;
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
@@ -200,11 +202,10 @@ function markText(currentNode, colour, tag) {
                 }
             }
         }
-            return;
-        } //else {
+        return;
+    }
     for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
         node = currentNode.listOfDescendentNodes[index];
         markText(node, colour, tag);
-        // }
     }
 }
