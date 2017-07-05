@@ -17,19 +17,21 @@
 
             LoadSettings();
 
-            initialiseDemoText();
+//            initialiseDemoText();
 
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");
             $('#SetDeontic-button-text').text("Set Deontic!");
             $('#SetTemporal-button-text').text("Set Temporal!");
             $('#SetOperational-button-text').text("Set Operational!");
+            $('#RemoveAll-button-text').text("Remove all!");
 
             $('#GetOOXML-button').click(getOoxml_OnClick);
             $('#SetOOXML-button').click(setOoxml_OnClick);
             $('#SetDeontic-button').click(setDeontic_OnClick);
             $('#SetTemporal-button').click(setTemporal_OnClick);
             $('#SetOperational-button').click(setOperational_OnClick);
+            $('#RemoveAll-button').click(removeAll_OnClick);
 
         });
     };
@@ -108,6 +110,10 @@
 
         var functionsToExecute = [];
         dataSelectorSetOOXML(OOXML_SOURCE.TEXT_AREA, functionsToExecute);
+    }
+
+    function removeAll_OnClick() {
+        
     }
 
     // Helper function for displaying notifications
