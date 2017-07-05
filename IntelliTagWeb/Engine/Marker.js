@@ -3,11 +3,11 @@
 }
 
 function setTemporalMarker(functionsToExecute) {
-    setLogicMarker("green", "deontic", functionsToExecute);
+    setLogicMarker("green", "temporal", functionsToExecute);
 }
 
 function setOperationalMarker(functionsToExecute) {
-    setLogicMarker("cyan", "deontic", functionsToExecute);
+    setLogicMarker("cyan", "operational", functionsToExecute);
 }
 
 function setLogicMarker(colour, tag, functionsToExecute) {
@@ -15,8 +15,6 @@ function setLogicMarker(colour, tag, functionsToExecute) {
     buildGraph();
     markText(Graph, colour, tag);
     getOOXMLFromGraph();
-
-//    console.log(dataSelectorSelectedOOXML.textBody);
 
     if (functionsToExecute.length > 0) {
         // Remove and execute the first function on the queue

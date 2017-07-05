@@ -15,6 +15,10 @@
                 return;
             }
 
+            LoadSettings();
+
+            initialiseDemoText();
+
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");
             $('#SetDeontic-button-text').text("Set Deontic!");
@@ -26,8 +30,6 @@
             $('#SetDeontic-button').click(setDeontic_OnClick);
             $('#SetTemporal-button').click(setTemporal_OnClick);
             $('#SetOperational-button').click(setOperational_OnClick);
-
-            initialiseDemoText();
 
         });
     };
