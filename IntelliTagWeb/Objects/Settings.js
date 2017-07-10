@@ -2,9 +2,14 @@
     _lastLogicId: 0,
 
     get lastLogicId() {
+
+        this._lastLogicId = Office.context.document.settings.get('lastLogicId');
         if (this._lastLogicId == null) {
-            this.lastLogicId = 0;
-        }
+            this._lastLogicId = 0;
+            Office.context.document.settings.set('lastLogicId', 0);
+            SaveSettings();
+        };
+
         return this._lastLogicId;
     },
 
@@ -15,9 +20,9 @@
     }
 }
 
-function LoadSettings() {
-        Settings._lastLogicId = Office.context.document.settings.get('lastLogicId');
-}
+//function LoadSettings() {
+//        Settings._lastLogicId = Office.context.document.settings.get('lastLogicId');
+//}
 
 function SaveSettings() {
     Office.context.document.settings.saveAsync(function(asyncResult) {
