@@ -77,26 +77,7 @@
 //        setLogic(setTemporalMarker);
 //    }
 
-    function setDeontic_OnClick() {
-        setLogic(setDeonticMarker);
-    }
 
-    function setTemporal_OnClick() {
-        setLogic(setTemporalMarker);
-    }
-
-    function setOperational_OnClick() {
-        setLogic(setOperationalMarker);
-    }
-
-    function setLogic(setLogicFunction) {
-        var functionsToExecute = [];
-        functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
-        functionsToExecute.push(function () { setLogicFunction(functionsToExecute); });
-        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody); });
-
-        dataSelectorGetText(functionsToExecute);
-    }
 
 //    function getText() {
 //        var functionsToExecute = [];

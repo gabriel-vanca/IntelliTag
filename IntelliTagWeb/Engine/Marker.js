@@ -10,6 +10,15 @@ function setOperationalMarker(functionsToExecute) {
     setLogicMarker("cyan", "operational", functionsToExecute);
 }
 
+function setLogic(setLogicFunction) {
+    var functionsToExecute = [];
+    functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
+    functionsToExecute.push(function () { setLogicFunction(functionsToExecute); });
+//    functionsToExecute.push(function () { window.setTextArea(dataSelectorSelectedOOXML.textBody); });
+
+    dataSelectorGetText(functionsToExecute);
+}
+
 function setLogicMarker(colour, tag, functionsToExecute) {
 
     buildGraph();

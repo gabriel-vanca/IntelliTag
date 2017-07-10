@@ -14,7 +14,7 @@
 
   <!--Version. Updates from the store only get triggered if there is a version change. -->
   <Version>1.0.0.0</Version>
-  <ProviderName>ArchCloud</ProviderName>
+  <ProviderName>Gabriel Vanca</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
   <DisplayName DefaultValue="IntelliTag" />
@@ -37,11 +37,18 @@
     <Host Name="Document" />
   </Hosts>
   <DefaultSettings>
+<!--    <SourceLocation DefaultValue="~remoteAppUrl/Functions/FunctionFile.html" />-->
     <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />
   </DefaultSettings>
   <!-- End TaskPane Mode integration.  -->
 
   <Permissions>ReadWriteDocument</Permissions>
+
+<!--  <Rule xsi:type="RuleCollection" Mode="Or">-->
+<!--    <Rule xsi:type="ItemIs" FormType="Edit" ItemType="Message"/>-->
+<!--  </Rule>-->
+
+<!--  <DisableEntityHighlighting>false</DisableEntityHighlighting>-->
 
   <!-- Begin Add-in Commands Mode integration. -->
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -103,7 +110,7 @@
                   <!--Look at the FunctionFile.html page for reference on how to implement the function -->
                    <Action xsi:type="ExecuteFunction">
                     <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
-                    <FunctionName>SetUnsetDeontic</FunctionName>
+                    <FunctionName>SetUnsetDeontic_OnClick</FunctionName>
                   </Action>
                 </Control>
                 
@@ -125,7 +132,7 @@
                   <!--Look at the FunctionFile.html page for reference on how to implement the function -->
                   <Action xsi:type="ExecuteFunction">
                     <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
-                    <FunctionName>SetUnsetTemporal</FunctionName>
+                    <FunctionName>SetUnsetTemporal_OnClick</FunctionName>
                   </Action>
                 </Control>
                 
@@ -147,7 +154,7 @@
                   <!--Look at the FunctionFile.html page for reference on how to implement the function -->
                   <Action xsi:type="ExecuteFunction">
                     <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
-                    <FunctionName>SetUnsetOperational</FunctionName>
+                    <FunctionName>SetUnsetOperational_OnClick</FunctionName>
                   </Action>
                 </Control>
 
@@ -178,7 +185,7 @@
           
               <!-- Label of your tab -->
               <!-- If validating with XSD it needs to be at the end, we might change this before release -->
-              <Label resid="Contoso.Group1Label" />
+              <Label resid="Contoso.Tab1.Label" />
           
             </CustomTab>
           </ExtensionPoint>
@@ -204,7 +211,8 @@
         <bt:String id="TemporalButton.Label" DefaultValue="Temporal" />
         <bt:String id="OperationalButton.Label" DefaultValue="Operational" />
         <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="OOXML Editor" />
-        <bt:String id="Contoso.Group1Label" DefaultValue="IntelliTag" />
+        <bt:String id="Contoso.Group1Label" DefaultValue="IntelliTag Logics" />
+        <bt:String id="Contoso.Tab1.Label" DefaultValue="IntelliTag" />
         <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with IntelliTag!" />
       </bt:ShortStrings>
       <!-- LongStrings max characters==250. -->
