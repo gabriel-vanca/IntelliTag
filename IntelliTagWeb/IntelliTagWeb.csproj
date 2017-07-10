@@ -70,6 +70,8 @@
     <Content Include="Engine\DataSelector.js" />
     <Content Include="Engine\ErrorHandling.js" />
     <Content Include="Engine\Marker.js" />
+    <Content Include="Images\SmartTag256x256.png" />
+    <Content Include="Images\SmartTag32x32.png" />
     <Content Include="Objects\Settings.js" />
     <Content Include="Engine\StringParsing.js" />
     <Content Include="Objects\Graph.js" />

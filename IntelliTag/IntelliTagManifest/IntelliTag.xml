@@ -14,15 +14,16 @@
 
   <!--Version. Updates from the store only get triggered if there is a version change. -->
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>ArchCloud</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
   <DisplayName DefaultValue="IntelliTag" />
   <Description DefaultValue="IntelliTag"/>
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
-  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+<!--  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />-->
+  <IconUrl DefaultValue="~remoteAppUrl/Images/SmartTag32x32.png" />
 
-  <SupportUrl DefaultValue="http://www.contoso.com" />
+  <SupportUrl DefaultValue="http://www.contoso.com" /> 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
     <AppDomain>AppDomain1</AppDomain>
@@ -71,9 +72,9 @@
           <!-- PrimaryCommandSurface is the main Office Ribbon. -->
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <!-- Use OfficeTab to extend an existing Tab. Use CustomTab to create a new tab. -->
-            <OfficeTab id="TabHome">
+            <CustomTab id="ArchCloud.IntelliTag.Tab1">
               <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
-              <Group id="Contoso.Group1">
+              <Group id="ArchCloud.IntelliTag.Group1">
                 <!-- Label for your group. resid must point to a ShortString resource. -->
                 <Label resid="Contoso.Group1Label" />
                 <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
@@ -83,9 +84,75 @@
                   <bt:Image size="32" resid="Contoso.tpicon_32x32" />
                   <bt:Image size="80" resid="Contoso.tpicon_80x80" />
                 </Icon>
+                
+                <!--Control. It can be of type "Button" or "Menu" -->
+                <Control xsi:type="Button" id="ArchCloud.IntelliTag.DeonticButton">
+                  <Label resid="DeonticButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="DeonticButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="DeonticButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+                    <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+                    <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+                  </Icon>
+                  <!--This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFuncion or ShowTaskpane-->
+                  <!--Look at the FunctionFile.html page for reference on how to implement the function -->
+                   <Action xsi:type="ExecuteFunction">
+                    <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
+                    <FunctionName>SetUnsetDeontic</FunctionName>
+                  </Action>
+                </Control>
+                
+                <!--Control. It can be of type "Button" or "Menu" -->
+                <Control xsi:type="Button" id="ArchCloud.IntelliTag.TemporalButton">
+                  <Label resid="TemporalButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="TemporalButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="TemporalButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+                    <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+                    <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+                  </Icon>
+                  <!--This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFuncion or ShowTaskpane-->
+                  <!--Look at the FunctionFile.html page for reference on how to implement the function -->
+                  <Action xsi:type="ExecuteFunction">
+                    <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
+                    <FunctionName>SetUnsetTemporal</FunctionName>
+                  </Action>
+                </Control>
+                
+                <!--Control. It can be of type "Button" or "Menu" -->
+                <Control xsi:type="Button" id="ArchCloud.IntelliTag.OperationalButton">
+                  <Label resid="OperationalButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="OperationalButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="OperationalButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+                    <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+                    <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+                  </Icon>
+                  <!--This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFuncion or ShowTaskpane-->
+                  <!--Look at the FunctionFile.html page for reference on how to implement the function -->
+                  <Action xsi:type="ExecuteFunction">
+                    <!--Name of the function to call. This function needs to exist in the global DOM namespace of the function file-->
+                    <FunctionName>SetUnsetOperational</FunctionName>
+                  </Action>
+                </Control>
 
                 <!-- Control. It can be of type "Button" or "Menu". -->
-                <Control xsi:type="Button" id="Contoso.TaskpaneButton">
+                <Control xsi:type="Button" id="ArchCloud.IntelliTag.TaskpaneButton">
                   <Label resid="Contoso.TaskpaneButton.Label" />
                   <Supertip>
                     <!-- ToolTip title. resid must point to a ShortString resource. -->
@@ -106,8 +173,14 @@
                     <SourceLocation resid="Contoso.Taskpane.Url" />
                   </Action>
                 </Control>
+              
               </Group>
-            </OfficeTab>
+          
+              <!-- Label of your tab -->
+              <!-- If validating with XSD it needs to be at the end, we might change this before release -->
+              <Label resid="Contoso.Group1Label" />
+          
+            </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
@@ -127,14 +200,21 @@
       </bt:Urls>
       <!-- ShortStrings max characters==125. -->
       <bt:ShortStrings>
-        <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="Show Taskpane" />
-        <bt:String id="Contoso.Group1Label" DefaultValue="Commands Group" />
-        <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with your sample add-in!" />
+        <bt:String id="DeonticButton.Label" DefaultValue="Deontic" />
+        <bt:String id="TemporalButton.Label" DefaultValue="Temporal" />
+        <bt:String id="OperationalButton.Label" DefaultValue="Operational" />
+        <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="OOXML Editor" />
+        <bt:String id="Contoso.Group1Label" DefaultValue="IntelliTag" />
+        <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with IntelliTag!" />
       </bt:ShortStrings>
       <!-- LongStrings max characters==250. -->
       <bt:LongStrings>
-        <bt:String id="Contoso.TaskpaneButton.Tooltip" DefaultValue="Click to Show a Taskpane" />
-        <bt:String id="Contoso.GetStarted.Description" DefaultValue="Your sample add-in loaded succesfully. Go to the HOME tab and click the 'Show Taskpane' button to get started." />
+        
+        <bt:String id="Contoso.TaskpaneButton.Tooltip" DefaultValue="Click to Show the OOXML Taskpane" />
+        <bt:String id="TemporalButton.Tooltip" DefaultValue="Click to Show the OOXML Taskpane" />
+        <bt:String id="DeonticButton.Tooltip" DefaultValue="Click to Show the OOXML Taskpane" />
+        <bt:String id="OperationalButton.Tooltip" DefaultValue="Click to Show the OOXML Taskpane" />
+        <bt:String id="Contoso.GetStarted.Description" DefaultValue="Your sample add-in loaded succesfully. Use the add-in capabilities from the IntelliTag add-in." />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

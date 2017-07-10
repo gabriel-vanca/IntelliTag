@@ -73,6 +73,10 @@
         }, 400);
     }
 
+//    function SetUnsetTemporal() {
+//        setLogic(setTemporalMarker);
+//    }
+
     function setDeontic_OnClick() {
         setLogic(setDeonticMarker);
     }
@@ -89,7 +93,7 @@
         var functionsToExecute = [];
         functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
         functionsToExecute.push(function () { setLogicFunction(functionsToExecute); });
-        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody) });
+        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody); });
 
         dataSelectorGetText(functionsToExecute);
     }
