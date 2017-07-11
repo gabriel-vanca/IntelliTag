@@ -1,31 +1,37 @@
 ﻿function setDeonticMarker(functionsToExecute) {
-    setLogicMarker("magenta", "deontic", functionsToExecute);
+    setUnsetLogicMarker("magenta", "deontic", functionsToExecute);
 }
 
 function setTemporalMarker(functionsToExecute) {
-    setLogicMarker("green", "temporal", functionsToExecute);
+    setUnsetLogicMarker("green", "temporal", functionsToExecute);
 }
 
 function setOperationalMarker(functionsToExecute) {
-    setLogicMarker("cyan", "operational", functionsToExecute);
+    setUnsetLogicMarker("cyan", "operational", functionsToExecute);
 }
 
-function setLogic(setLogicFunction) {
+function setUnsetLogic(setUnsetLogicFunction) {
     var functionsToExecute = [];
     functionsToExecute.push(function () { dataSelectorGetOOXML(functionsToExecute); });
-    functionsToExecute.push(function () { setLogicFunction(functionsToExecute); });
+    functionsToExecute.push(function () { setUnsetLogicFunction(functionsToExecute); });
 
-    if (dataSelectorSelectedOOXML && dataSelectorSelectedOOXML.textBody) {
-        functionsToExecute.push(function() { dataSelectorGetText(functionsToExecute); });
-        functionsToExecute.push(function() { window.setTextArea(dataSelectorSelectedOOXML.textBody); });
-    }
+//    if (window.dataSelectorSelectedOOXML && window.dataSelectorSelectedOOXML.textBody) {
+//        functionsToExecute.push(function() { dataSelectorGetText(functionsToExecute); });
+//        functionsToExecute.push(function() { window.setTextArea(window.dataSelectorSelectedOOXML.textBody); });
+//    }
 
     dataSelectorGetText(functionsToExecute);
 }
 
-function setLogicMarker(colour, tag, functionsToExecute) {
+function checkIfMarkerIsPresent(tag) {
+    const stringToLookFor = "IntelliTag_" + tag + "_";
+    return (dataSelectorSelectedOOXML.textBody.indexOf(stringToLookFor) === -1);
+}
+
+function setUnsetLogicMarker(colour, tag, functionsToExecute) {
 
     buildGraph();
+
     markText(Graph, colour, tag);
     getOOXMLFromGraph();
 
