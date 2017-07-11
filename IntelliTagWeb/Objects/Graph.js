@@ -135,6 +135,30 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosi
     return node;
 }
 
+function removeNode(_nodeToBeRemoved) {
+    var _ascentNode = _nodeToBeRemoved.ascendentNode;
+    var position = -1;
+    for (let index = 0; index < _ascentNode.listOfDescendentNodes.length; index++) {
+        if (_ascentNode.listOfDescendentNodes[index] === _nodeToBeRemoved) {
+            position = index;
+            break;
+        }
+    }
+    if (position === -1)
+        return;
+
+    if (_nodeToBeRemoved.listOfDescendentNodes != null)
+    {
+
+    for (let index = 0; index < _nodeToBeRemoved.listOfDescendentNodes; index++) {
+        _ascentNode.listOfDescendentNodes.splice(index + 1, 0, _nodeToBeRemoved.listOfDescendentNodes[index]);
+        }
+    }
+
+    _ascentNode.listOfDescendentNodes.splice(index, 1);
+
+}
+
 //function moveAllDescendantNodesToIndermediaryNode(currentNode, intermediaryNode) {
 //    intermediaryNode.listOfDescendentNodes = currentNode.listOfDescendentNodes;
 //    currentNode.listOfDescendentNodes = [];
@@ -185,5 +209,51 @@ function markText(currentNode, visibleTag, logicTag) {
     for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
         node = currentNode.listOfDescendentNodes[index];
         markText(node, visibleTag, logicTag);
+    }
+}
+
+function unmarkText(currentNode, visibleTag, logicTag) {
+    var node;
+    if (currentNode.openTag != null &&
+        (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
+        let random = Math.floor(Math.random() * 999999999);
+        node = createNode("<w:bookmarkStart w:id=\"" +
+            random +
+            "\" w:name=\"" +
+            "IntelliTag_" +
+            logicTag +
+            "_" +
+            Settings.lastLogicId +
+            "_" +
+            random +
+            "\"/>",
+            "<w:bookmarkEnd w:id=\"" + random + "\"/>",
+            currentNode,
+            null,
+            INSERT_LOCATION.Intermediary);
+        Settings.lastLogicId++;
+    } else if (currentNode.openTag != null &&
+        (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
+        var indexOfPropertyTag = -1;
+        for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
+            node = currentNode.listOfDescendentNodes[index];
+            if (node.openTag.indexOf("<w:rPr>") !== -1 || node.openTag.indexOf("<w:rPr ") !== -1) {
+                indexOfPropertyTag = index;
+                break;
+            }
+        }
+        if (indexOfPropertyTag === -1) {
+            var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
+            createNode(visibleTag, null, newNode1, null);
+        } else {
+            var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
+            createNode(visibleTag, null, propertyTagNode, null);
+
+        }
+        return;
+    }
+    for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
+        node = currentNode.listOfDescendentNodes[index];
+        unmarkText(node, visibleTag, logicTag);
     }
 }
