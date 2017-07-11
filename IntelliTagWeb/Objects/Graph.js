@@ -150,6 +150,7 @@ function markText(currentNode, colour, tag) {
         node = createNode("<w:bookmarkStart w:id=\"" +
             random +
             "\" w:name=\"" +
+            "IntelliTag_"+
             tag +
             "_" +
             Settings.lastLogicId +
