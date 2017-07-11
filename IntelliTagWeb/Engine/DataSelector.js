@@ -4,7 +4,7 @@ var dataSelectorSelectedOOXML;
 const OOXML_SOURCE = {
     TEXT_AREA: 'text_area',
     MARKER_EDITOR: 'marker_editor'
-}
+};
 
 function dataSelectorGetText(functionsToExecute) {
     return dataSelectorGetData(Office.CoercionType.Text, functionsToExecute);
@@ -60,7 +60,7 @@ function dataSelectorGetData(coercionType, functionsToExecute) {
 
                         if (functionsToExecute.length > 0) {
                             // Remove and execute the first function on the queue
-                            (functionsToExecute.shift())();
+                            functionsToExecute.shift()();
                         }
                         //  }, 400);
 
@@ -189,7 +189,7 @@ function dataSelectorSetData(coercionType, dataSource, functionsToExecute) {
 
                                 if (functionsToExecute.length > 0) {
                                     // Remove and execute the first function on the queue
-                                    (functionsToExecute.shift())();
+                                    functionsToExecute.shift()();
                                 }
                             })
                             .catch(errorHandler);

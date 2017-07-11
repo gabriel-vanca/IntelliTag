@@ -6,7 +6,7 @@
 
     indexBegin = window.dataSelectorSelectedOOXML.indexOf("<w:body");
     for (; indexBegin < window.dataSelectorSelectedOOXML.length; indexBegin++) {
-        if (window.dataSelectorSelectedOOXML.charAt(indexBegin) == ">") {
+        if (window.dataSelectorSelectedOOXML.charAt(indexBegin) === ">") {
             indexBegin++;
             break;
         }

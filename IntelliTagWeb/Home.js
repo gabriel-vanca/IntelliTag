@@ -11,7 +11,8 @@
 
             // This is meant to work with Word 2016
             if (!Office.context.requirements.isSetSupported('WordApi', '1.1')) {
-                showNotification("Version Not Supported Error", "This add-in needs Word 2016 to run as it makes use of the Word 1.1 API.")
+                showNotification("Version Not Supported Error",
+                    "This add-in needs Word 2016 to run as it makes use of the Word 1.1 API.");
                 return;
             }
 
@@ -64,19 +65,17 @@
 
     function setTextArea(textValue) {
         var textArea = document.getElementById("dataOOXML");
+        if (!textArea)
+            return;
         var currentResult = textValue;
         while (textArea.hasChildNodes()) {
             textArea.removeChild(textArea.lastChild);
-        };
-        setTimeout(function () {
-            textArea.appendChild(document.createTextNode(currentResult));
-        }, 400);
+        }
+        setTimeout(function() {
+                textArea.appendChild(document.createTextNode(currentResult));
+            },
+            400);
     }
-
-//    function SetUnsetTemporal() {
-//        setLogic(setTemporalMarker);
-//    }
-
 
 
 //    function getText() {
@@ -87,7 +86,7 @@
 
     function getOoxml_OnClick() {
         var functionsToExecute = [];
-        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody) });
+        functionsToExecute.push(function () { setTextArea(dataSelectorSelectedOOXML.textBody); });
         dataSelectorGetOOXML(functionsToExecute);
     }
 
@@ -95,10 +94,6 @@
 
         var functionsToExecute = [];
         dataSelectorSetOOXML(OOXML_SOURCE.TEXT_AREA, functionsToExecute);
-    }
-
-    function removeAll_OnClick() {
-        
     }
 
     // Helper function for displaying notifications

@@ -21,8 +21,8 @@ body {
 
 #notification-popup.ms-MessageBanner {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
+    left: 0;
+    bottom: 0;
     text-align: left;
     height: inherit;
     min-width: inherit;
