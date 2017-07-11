@@ -1,13 +1,13 @@
 ﻿function setDeonticMarker(functionsToExecute) {
-    setUnsetLogicMarker("magenta", "deontic", functionsToExecute);
+    setUnsetLogicMarker("<w:color w:val=\"" + "magenta" + "\"/>", "deontic", functionsToExecute);
 }
 
 function setTemporalMarker(functionsToExecute) {
-    setUnsetLogicMarker("green", "temporal", functionsToExecute);
+    setUnsetLogicMarker("<w:highlight w:val=\"" + "green" + "\"/>", "temporal", functionsToExecute);
 }
 
 function setOperationalMarker(functionsToExecute) {
-    setUnsetLogicMarker("cyan", "operational", functionsToExecute);
+    setUnsetLogicMarker("<w:bdr w:val=\"single\" w:sz=\"4\" w:space=\"2\" w:color=\"" + "cyan" + "\"/>" , "operational", functionsToExecute);
 }
 
 function setUnsetLogic(setUnsetLogicFunction) {

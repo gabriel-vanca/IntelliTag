@@ -142,7 +142,7 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosi
 //    intermediaryNode.ascendentNode = currentNode;
 //}
 
-function markText(currentNode, colour, tag) {
+function markText(currentNode, visibleTag, logicTag) {
     var node;
     if (currentNode.openTag != null &&
         (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
@@ -151,7 +151,7 @@ function markText(currentNode, colour, tag) {
             random +
             "\" w:name=\"" +
             "IntelliTag_"+
-            tag +
+            logicTag +
             "_" +
             Settings.lastLogicId +
             "_" +
@@ -174,45 +174,16 @@ function markText(currentNode, colour, tag) {
         }
         if (indexOfPropertyTag === -1) {
             var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
-            createNode("<w:color w:val=\"" + colour + "\"/>", null, newNode1, null);
+            createNode(visibleTag, null, newNode1, null);
         } else {
             var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
-            var freeToAdd = true;
+            createNode(visibleTag, null, propertyTagNode, null);
 
-            for (let index = 0; index < propertyTagNode.listOfDescendentNodes.length; index++) {
-                if (propertyTagNode.listOfDescendentNodes[index].openTag.indexOf("<w:color") !== -1) {
-                    freeToAdd = false;
-                    break;
-                }
-            }
-
-            if (freeToAdd === true) {
-                createNode("<w:color w:val=\"" + colour + "\"/>", null, propertyTagNode, null);
-            } else {
-                freeToAdd = true;
-
-                for (let index = 0; index < propertyTagNode.listOfDescendentNodes.length; index++) {
-                    if (propertyTagNode.listOfDescendentNodes[index].openTag.indexOf("<w:highlight") !== -1) {
-                        freeToAdd = false;
-                        break;
-                    }
-                }
-
-                if (freeToAdd === true) {
-                    createNode("<w:highlight w:val=\"" + colour + "\"/>", null, propertyTagNode, null);
-                } else {
-                    //freeToAdd = true;
-                    createNode("<w:bdr w:val=\"single\" w:sz=\"4\" w:space=\"1\" w:color=\"" + colour + "\"/>",
-                        null,
-                        propertyTagNode,
-                        null);
-                }
-            }
         }
         return;
     }
     for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
         node = currentNode.listOfDescendentNodes[index];
-        markText(node, colour, tag);
+        markText(node, visibleTag, logicTag);
     }
 }

@@ -11,17 +11,17 @@
 //Notice function needs to be in global namespace
 
 function SetUnsetDeontic_OnClick(event) {
-    setLogic(setDeonticMarker);
+    setUnsetLogic(setDeonticMarker);
     // Calling event.completed is required. event.completed lets the platform know that processing has completed.
     event.completed();
 }
 function SetUnsetTemporal_OnClick(event) {
-    setLogic(setTemporalMarker);
+    setUnsetLogic(setTemporalMarker);
     // Calling event.completed is required. event.completed lets the platform know that processing has completed.
     event.completed();
 }
 function SetUnsetOperational_OnClick(event) {
-    setLogic(setOperationalMarker);
+    setUnsetLogic(setOperationalMarker);
     // Calling event.completed is required. event.completed lets the platform know that processing has completed.
     event.completed();
 }
