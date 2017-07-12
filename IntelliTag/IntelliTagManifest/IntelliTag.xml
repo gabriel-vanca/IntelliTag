@@ -158,6 +158,20 @@
                   </Action>
                 </Control>
 
+              </Group>
+              
+              <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+              <Group id="ArchCloud.IntelliTag.Group3">
+                <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="Contoso.Group3Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                <Icon>
+                  <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+                  <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+                  <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+                </Icon>
+                
                 <!-- Control. It can be of type "Button" or "Menu". -->
                 <Control xsi:type="Button" id="ArchCloud.IntelliTag.TaskpaneButton">
                   <Label resid="Contoso.TaskpaneButton.Label" />
@@ -212,6 +226,7 @@
         <bt:String id="OperationalButton.Label" DefaultValue="Operational" />
         <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="OOXML Editor" />
         <bt:String id="Contoso.Group1Label" DefaultValue="IntelliTag Logics" />
+        <bt:String id="Contoso.Group3Label" DefaultValue="Developer Options" />
         <bt:String id="Contoso.Tab1.Label" DefaultValue="IntelliTag" />
         <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with IntelliTag!" />
       </bt:ShortStrings>

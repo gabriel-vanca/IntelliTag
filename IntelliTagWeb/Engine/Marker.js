@@ -23,16 +23,20 @@ function setUnsetLogic(setUnsetLogicFunction) {
     dataSelectorGetText(functionsToExecute);
 }
 
-function checkIfMarkerIsPresent(tag) {
+function isMarkerIsPresent(tag) {
     const stringToLookFor = "IntelliTag_" + tag + "_";
-    return (dataSelectorSelectedOOXML.textBody.indexOf(stringToLookFor) === -1);
+    return dataSelectorSelectedOOXML.textBody.indexOf(stringToLookFor) !== -1;
 }
 
 function setUnsetLogicMarker(colour, tag, functionsToExecute) {
-
     buildGraph();
 
-    markText(Graph, colour, tag);
+    if (isMarkerIsPresent(tag)) {
+        unmarkText(Graph, colour, tag);
+    } else {
+        markText(Graph, colour, tag);
+    }
+
     getOOXMLFromGraph();
 
     dataSelectorSetOOXML(OOXML_SOURCE.MARKER_EDITOR, []);
@@ -41,6 +45,4 @@ function setUnsetLogicMarker(colour, tag, functionsToExecute) {
         // Remove and execute the first function on the queue
         functionsToExecute.shift()();
     }
-
-  
 }

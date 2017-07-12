@@ -5,15 +5,15 @@ const INSERT_LOCATION = {
     End: 'end',
     Replace: 'replace',
     Intermediary: 'intermediary'
-}
+};
 
 function buildGraph() {
     Graph = createNode(null, null, null, null);
     var ascendentNode = Graph;
     var tempString = copyString(dataSelectorSelectedOOXML.textBody);
  
-    while (true) {
-        if (tempString == null || tempString.length < 1)
+    for (; ;) {
+        if (tempString === null || typeof tempString === "undefined" || tempString.length < 1)
             break;
         if (tempString[tempString.length - 1] !== " ") {
             tempString += "  ";
@@ -84,17 +84,17 @@ function buildGraph() {
 }
 
 function constructOOXMLFromGraph(currentNode) {
-    if (currentNode.openTag != null)
+    if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined")
         window.dataSelectorSelectedOOXML.textBody += currentNode.openTag;
-    if (currentNode.textValue != null)
+    if (currentNode.textValue !== null && typeof currentNode.textValue !== "undefined" && currentNode.textValue !== "")
         window.dataSelectorSelectedOOXML.textBody += currentNode.textValue;
 
     for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
-        var node = currentNode.listOfDescendentNodes[index];
+        const node = currentNode.listOfDescendentNodes[index];
         constructOOXMLFromGraph(node);
     }
 
-    if (currentNode.closeTag != null)
+    if (currentNode.closeTag !== null && typeof currentNode.closeTag !== "undefined")
         window.dataSelectorSelectedOOXML.textBody += currentNode.closeTag;
 }
 
@@ -105,13 +105,13 @@ function getOOXMLFromGraph() {
 
 function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosition) {
 
-    var node = {
+    const node = {
         ascendentNode: _ascendentNode,
         openTag: _openTag,
         closeTag: _closeTag,
         textValue: _textValue,
         listOfDescendentNodes: []
-    }
+    };
 
     if (_ascendentNode) {
         if (_insertPosition === INSERT_LOCATION.Intermediary) {
@@ -136,7 +136,7 @@ function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosi
 }
 
 function removeNode(_nodeToBeRemoved) {
-    var _ascentNode = _nodeToBeRemoved.ascendentNode;
+    const _ascentNode = _nodeToBeRemoved.ascendentNode;
     var position = -1;
     for (let index = 0; index < _ascentNode.listOfDescendentNodes.length; index++) {
         if (_ascentNode.listOfDescendentNodes[index] === _nodeToBeRemoved) {
@@ -147,31 +147,24 @@ function removeNode(_nodeToBeRemoved) {
     if (position === -1)
         return;
 
-    if (_nodeToBeRemoved.listOfDescendentNodes != null)
+    if (_nodeToBeRemoved.listOfDescendentNodes !== null && typeof _nodeToBeRemoved.listOfDescendentNodes !== "undefined" && _nodeToBeRemoved.listOfDescendentNodes.length > 0)
     {
 
-    for (let index = 0; index < _nodeToBeRemoved.listOfDescendentNodes; index++) {
+    for (let index = 0; index < _nodeToBeRemoved.listOfDescendentNodes.length; index++) {
         _ascentNode.listOfDescendentNodes.splice(index + 1, 0, _nodeToBeRemoved.listOfDescendentNodes[index]);
         }
     }
 
-    _ascentNode.listOfDescendentNodes.splice(index, 1);
-
+    _ascentNode.listOfDescendentNodes.splice(position, 1);
+    _nodeToBeRemoved.openTag = null;
 }
-
-//function moveAllDescendantNodesToIndermediaryNode(currentNode, intermediaryNode) {
-//    intermediaryNode.listOfDescendentNodes = currentNode.listOfDescendentNodes;
-//    currentNode.listOfDescendentNodes = [];
-//    currentNode.listOfDescendentNodes.push(intermediaryNode);
-//    intermediaryNode.ascendentNode = currentNode;
-//}
 
 function markText(currentNode, visibleTag, logicTag) {
     var node;
-    if (currentNode.openTag != null &&
+    if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined" &&
         (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
         let random = Math.floor(Math.random() * 999999999);
-        node = createNode("<w:bookmarkStart w:id=\"" +
+        createNode("<w:bookmarkStart w:id=\"" +
             random +
             "\" w:name=\"" +
             "IntelliTag_"+
@@ -186,7 +179,7 @@ function markText(currentNode, visibleTag, logicTag) {
             null,
             INSERT_LOCATION.Intermediary);
         Settings.lastLogicId++;
-    } else if (currentNode.openTag != null &&
+    } else if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined" &&
         (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
         var indexOfPropertyTag = -1;
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
@@ -214,46 +207,24 @@ function markText(currentNode, visibleTag, logicTag) {
 
 function unmarkText(currentNode, visibleTag, logicTag) {
     var node;
-    if (currentNode.openTag != null &&
-        (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
-        let random = Math.floor(Math.random() * 999999999);
-        node = createNode("<w:bookmarkStart w:id=\"" +
-            random +
-            "\" w:name=\"" +
-            "IntelliTag_" +
-            logicTag +
-            "_" +
-            Settings.lastLogicId +
-            "_" +
-            random +
-            "\"/>",
-            "<w:bookmarkEnd w:id=\"" + random + "\"/>",
-            currentNode,
-            null,
-            INSERT_LOCATION.Intermediary);
-        Settings.lastLogicId++;
-    } else if (currentNode.openTag != null &&
-        (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
-        var indexOfPropertyTag = -1;
-        for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
-            node = currentNode.listOfDescendentNodes[index];
-            if (node.openTag.indexOf("<w:rPr>") !== -1 || node.openTag.indexOf("<w:rPr ") !== -1) {
-                indexOfPropertyTag = index;
-                break;
-            }
-        }
-        if (indexOfPropertyTag === -1) {
-            var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
-            createNode(visibleTag, null, newNode1, null);
-        } else {
-            var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
-            createNode(visibleTag, null, propertyTagNode, null);
-
-        }
+    if (currentNode.openTag !== null &&
+        typeof currentNode.openTag !== "undefined" &&
+        currentNode.openTag.indexOf("<w:bookmarkStart") !== -1 &&
+        currentNode.openTag.indexOf("IntelliTag_" + logicTag + "_") !== -1) {
+        removeNode(currentNode);
+//        currentNode = null;
+//        return;
+    } else if (currentNode.openTag !== null &&
+        typeof currentNode.openTag !== "undefined" &&
+        currentNode.openTag.indexOf(visibleTag) !== -1) {
+        removeNode(currentNode);
         return;
     }
     for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
         node = currentNode.listOfDescendentNodes[index];
         unmarkText(node, visibleTag, logicTag);
+
+        if ((node.openTag === null || typeof node.openTag === "undefined" || node.openTag === []) && (node.textBody !== null && typeof node.textBody !== "undefined" && node.textBody.length > 0))
+            index--;
     }
 }
