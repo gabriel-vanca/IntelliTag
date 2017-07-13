@@ -8,82 +8,87 @@ const INSERT_LOCATION = {
 };
 
 function buildGraph() {
-    Graph = createNode(null, null, null, null);
-    var ascendentNode = Graph;
-    var tempString = copyString(dataSelectorSelectedOOXML.textBody);
- 
-    for (; ;) {
-        if (tempString === null || typeof tempString === "undefined" || tempString.length < 1)
-            break;
-        if (tempString[tempString.length - 1] !== " ") {
-            tempString += "  ";
-        }
-        var simpleTag = false;
-        var closeTag = false;
+    try {
+        Graph = createNode(null, null, null, null);
+        var ascendentNode = Graph;
+        var tempString = copyString(dataSelectorSelectedOOXML.textBody);
 
-        var indexBegin = tempString.indexOf("<");
-        if (indexBegin === -1)
-            break;
-        var indexEnd = tempString.indexOf(">");
-        if (indexEnd === -1)
-            break;
-
-        
-        for (let index = indexEnd-1; index > indexBegin; index--) {
-            if (tempString.charAt(index) === " ")
-                continue;
-
-            if (tempString.charAt(index) === "/") {
-                simpleTag = true;
+        for (;;) {
+            if (tempString === null || typeof tempString === "undefined" || tempString.length < 1)
                 break;
+            if (tempString[tempString.length - 1] !== " ") {
+                tempString += "  ";
             }
-            break;
-        }
+            var simpleTag = false;
+            var closeTag = false;
 
-        if (simpleTag === false) {
-            for (let index = indexBegin+1; index < indexEnd; index++) {
+            var indexBegin = tempString.indexOf("<");
+            if (indexBegin === -1)
+                break;
+            var indexEnd = tempString.indexOf(">");
+            if (indexEnd === -1)
+                break;
+
+
+            for (let index = indexEnd - 1; index > indexBegin; index--) {
                 if (tempString.charAt(index) === " ")
                     continue;
 
                 if (tempString.charAt(index) === "/") {
-                    closeTag = true;
+                    simpleTag = true;
                     break;
                 }
                 break;
             }
-        }
 
-        var tag = tempString.substring(indexBegin, indexEnd + 1);
-        tempString = tempString.substring(indexEnd + 1, tempString.length);
+            if (simpleTag === false) {
+                for (let index = indexBegin + 1; index < indexEnd; index++) {
+                    if (tempString.charAt(index) === " ")
+                        continue;
 
-        if (simpleTag === true) {
-            createNode(tag, null, ascendentNode, null);
-            
-        } else {
-            if (closeTag === false) {
-                var node = createNode(tag, null, ascendentNode, null);
-                ascendentNode = node;
-               
-                if (tag.indexOf("<w:t") !== -1) {
-                    var indexTextBegin = 0;
-                    var indexTextEnd = tempString.indexOf("</");
-                    if (indexTextEnd !== -1) {
-                        var textValue = tempString.substring(indexTextBegin, indexTextEnd);
-                        createNode(null, null, ascendentNode, textValue);
-                        tempString = tempString.substring(indexTextEnd, tempString.length);
+                    if (tempString.charAt(index) === "/") {
+                        closeTag = true;
+                        break;
                     }
+                    break;
                 }
+            }
+
+            var tag = tempString.substring(indexBegin, indexEnd + 1);
+            tempString = tempString.substring(indexEnd + 1, tempString.length);
+
+            if (simpleTag === true) {
+                createNode(tag, null, ascendentNode, null);
+
             } else {
-                //if (ascendentNode) {
-                ascendentNode.closeTag = tag;
-                ascendentNode = ascendentNode.ascendentNode;
-                //}
+                if (closeTag === false) {
+                    var node = createNode(tag, null, ascendentNode, null);
+                    ascendentNode = node;
+
+                    if (tag.indexOf("<w:t") !== -1) {
+                        var indexTextBegin = 0;
+                        var indexTextEnd = tempString.indexOf("</");
+                        if (indexTextEnd !== -1) {
+                            var textValue = tempString.substring(indexTextBegin, indexTextEnd);
+                            createNode(null, null, ascendentNode, textValue);
+                            tempString = tempString.substring(indexTextEnd, tempString.length);
+                        }
+                    }
+                } else {
+                    //if (ascendentNode) {
+                    ascendentNode.closeTag = tag;
+                    ascendentNode = ascendentNode.ascendentNode;
+                    //}
+                }
             }
         }
+    } catch (error) {
+        errorHandler(error);
     }
 }
 
 function constructOOXMLFromGraph(currentNode) {
+    try{
     if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined")
         window.dataSelectorSelectedOOXML.textBody += currentNode.openTag;
     if (currentNode.textValue !== null && typeof currentNode.textValue !== "undefined" && currentNode.textValue !== "")
@@ -96,46 +101,58 @@ function constructOOXMLFromGraph(currentNode) {
 
     if (currentNode.closeTag !== null && typeof currentNode.closeTag !== "undefined")
         window.dataSelectorSelectedOOXML.textBody += currentNode.closeTag;
+    } catch (error) {
+        errorHandler(error);
+    }
 }
 
 function getOOXMLFromGraph() {
-    window.dataSelectorSelectedOOXML.textBody = "";
-    constructOOXMLFromGraph(Graph);
+    try {
+        window.dataSelectorSelectedOOXML.textBody = "";
+        constructOOXMLFromGraph(Graph);
+    } catch (error) {
+        errorHandler(error);
+    }
 }
 
 function createNode(_openTag, _closeTag, _ascendentNode, _textValue, _insertPosition) {
 
-    const node = {
-        ascendentNode: _ascendentNode,
-        openTag: _openTag,
-        closeTag: _closeTag,
-        textValue: _textValue,
-        listOfDescendentNodes: []
-    };
+    try {
+        const node = {
+            ascendentNode: _ascendentNode,
+            openTag: _openTag,
+            closeTag: _closeTag,
+            textValue: _textValue,
+            listOfDescendentNodes: []
+        };
 
-    if (_ascendentNode) {
-        if (_insertPosition === INSERT_LOCATION.Intermediary) {
-            node.listOfDescendentNodes = _ascendentNode.listOfDescendentNodes;
-            _ascendentNode.listOfDescendentNodes = [];
-            _ascendentNode.listOfDescendentNodes.push(node);
-            node.ascendentNode = _ascendentNode;
-            for (let index = 0; index < node.listOfDescendentNodes.length; index++) {
-                node.listOfDescendentNodes[index].ascendentNode = node;
+        if (_ascendentNode) {
+            if (_insertPosition === INSERT_LOCATION.Intermediary) {
+                node.listOfDescendentNodes = _ascendentNode.listOfDescendentNodes;
+                _ascendentNode.listOfDescendentNodes = [];
+                _ascendentNode.listOfDescendentNodes.push(node);
+                node.ascendentNode = _ascendentNode;
+                for (let index = 0; index < node.listOfDescendentNodes.length; index++) {
+                    node.listOfDescendentNodes[index].ascendentNode = node;
+                }
+            } else if (_insertPosition === INSERT_LOCATION.Replace) {
+                _ascendentNode.listOfDescendentNodes = [];
+                _ascendentNode.listOfDescendentNodes.push(node);
+            } else if (_insertPosition === INSERT_LOCATION.Begin) {
+                _ascendentNode.listOfDescendentNodes.unshift(node);
+            } else {
+                _ascendentNode.listOfDescendentNodes.push(node);
             }
-        } else if (_insertPosition === INSERT_LOCATION.Replace) {
-            _ascendentNode.listOfDescendentNodes = [];
-            _ascendentNode.listOfDescendentNodes.push(node);
-        } else if (_insertPosition === INSERT_LOCATION.Begin) {
-            _ascendentNode.listOfDescendentNodes.unshift(node);
-        } else {
-            _ascendentNode.listOfDescendentNodes.push(node);
         }
-    }
 
-    return node;
+        return node;
+    } catch (error) {
+        errorHandler(error);
+    }
 }
 
 function removeNode(_nodeToBeRemoved) {
+    try{
     const _ascentNode = _nodeToBeRemoved.ascendentNode;
     var position = -1;
     for (let index = 0; index < _ascentNode.listOfDescendentNodes.length; index++) {
@@ -147,84 +164,106 @@ function removeNode(_nodeToBeRemoved) {
     if (position === -1)
         return;
 
-    if (_nodeToBeRemoved.listOfDescendentNodes !== null && typeof _nodeToBeRemoved.listOfDescendentNodes !== "undefined" && _nodeToBeRemoved.listOfDescendentNodes.length > 0)
-    {
+    if (_nodeToBeRemoved.listOfDescendentNodes !== null &&
+        typeof _nodeToBeRemoved.listOfDescendentNodes !== "undefined" &&
+        _nodeToBeRemoved.listOfDescendentNodes.length > 0) {
 
-    for (let index = 0; index < _nodeToBeRemoved.listOfDescendentNodes.length; index++) {
-        _ascentNode.listOfDescendentNodes.splice(index + 1, 0, _nodeToBeRemoved.listOfDescendentNodes[index]);
+        for (let index = 0; index < _nodeToBeRemoved.listOfDescendentNodes.length; index++) {
+            _ascentNode.listOfDescendentNodes.splice(index + 1, 0, _nodeToBeRemoved.listOfDescendentNodes[index]);
         }
     }
 
     _ascentNode.listOfDescendentNodes.splice(position, 1);
     _nodeToBeRemoved.openTag = null;
+    _nodeToBeRemoved.textBody = null;
+    _nodeToBeRemoved.closeTag = null;
+    } catch (error) {
+        errorHandler(error);
+    }
 }
 
 function markText(currentNode, visibleTag, logicTag) {
     var node;
-    if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined" &&
-        (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
-        let random = Math.floor(Math.random() * 999999999);
-        createNode("<w:bookmarkStart w:id=\"" +
-            random +
-            "\" w:name=\"" +
-            "IntelliTag_"+
-            logicTag +
-            "_" +
-            Settings.lastLogicId +
-            "_" +
-            random +
-            "\"/>",
-            "<w:bookmarkEnd w:id=\"" + random + "\"/>",
-            currentNode,
-            null,
-            INSERT_LOCATION.Intermediary);
-        Settings.lastLogicId++;
-    } else if (currentNode.openTag !== null && typeof currentNode.openTag !== "undefined" &&
-        (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
-        var indexOfPropertyTag = -1;
+    try {
+        if (currentNode.openTag !== null &&
+            typeof currentNode.openTag !== "undefined" &&
+            (currentNode.openTag.indexOf("<w:p>") !== -1 || currentNode.openTag.indexOf("<w:p ") !== -1)) {
+            let random = Math.floor(Math.random() * 999999999);
+            createNode("<w:bookmarkStart w:id=\"" +
+                random +
+                "\" w:name=\"" +
+                "IntelliTag_" +
+                logicTag +
+                "_" +
+                Settings.lastLogicId +
+                "_" +
+                random +
+                "\"/>",
+                "<w:bookmarkEnd w:id=\"" + random + "\"/>",
+                currentNode,
+                null,
+                INSERT_LOCATION.Intermediary);
+            Settings.lastLogicId++;
+        } else if (currentNode.openTag !== null &&
+            typeof currentNode.openTag !== "undefined" &&
+            (currentNode.openTag.indexOf("<w:r>") !== -1 || currentNode.openTag.indexOf("<w:r ") !== -1)) {
+            var indexOfPropertyTag = -1;
+            for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
+                node = currentNode.listOfDescendentNodes[index];
+                if (node.openTag.indexOf("<w:rPr>") !== -1 || node.openTag.indexOf("<w:rPr ") !== -1) {
+                    indexOfPropertyTag = index;
+                    break;
+                }
+            }
+            if (indexOfPropertyTag === -1) {
+                var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
+                createNode(visibleTag, null, newNode1, null);
+            } else {
+                var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
+                createNode(visibleTag, null, propertyTagNode, null);
+
+            }
+            return;
+        }
         for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
             node = currentNode.listOfDescendentNodes[index];
-            if (node.openTag.indexOf("<w:rPr>") !== -1 || node.openTag.indexOf("<w:rPr ") !== -1) {
-                indexOfPropertyTag = index;
-                break;
-            }
+            markText(node, visibleTag, logicTag);
         }
-        if (indexOfPropertyTag === -1) {
-            var newNode1 = createNode("<w:rPr>", "</w:rPr>", currentNode, null, INSERT_LOCATION.Begin);
-            createNode(visibleTag, null, newNode1, null);
-        } else {
-            var propertyTagNode = currentNode.listOfDescendentNodes[indexOfPropertyTag];
-            createNode(visibleTag, null, propertyTagNode, null);
-
-        }
-        return;
-    }
-    for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
-        node = currentNode.listOfDescendentNodes[index];
-        markText(node, visibleTag, logicTag);
+    } catch (error) {
+        errorHandler(error);
     }
 }
 
 function unmarkText(currentNode, visibleTag, logicTag) {
     var node;
-    if (currentNode.openTag !== null &&
-        typeof currentNode.openTag !== "undefined" &&
-        currentNode.openTag.indexOf("<w:bookmarkStart") !== -1 &&
-        currentNode.openTag.indexOf("IntelliTag_" + logicTag + "_") !== -1) {
-        removeNode(currentNode);
-//        currentNode = null;
-//        return;
-    } else if (currentNode.openTag !== null &&
-        typeof currentNode.openTag !== "undefined" &&
-        currentNode.openTag.indexOf(visibleTag) !== -1) {
-        removeNode(currentNode);
-        return;
-    }
-    for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
-        node = currentNode.listOfDescendentNodes[index];
-        unmarkText(node, visibleTag, logicTag);
+    try {
+        if (currentNode.openTag !== null &&
+            typeof currentNode.openTag !== "undefined" &&
+            currentNode.openTag.indexOf("<w:bookmarkStart") !== -1 &&
+            currentNode.openTag.indexOf("IntelliTag_" + logicTag + "_") !== -1) {
+            removeNode(currentNode);
+            return;
 
-        if ((node.openTag === null || typeof node.openTag === "undefined" || node.openTag === []) && (node.textBody !== null && typeof node.textBody !== "undefined" && node.textBody.length > 0))
-            index--;
+        } else if (currentNode.openTag !== null &&
+            typeof currentNode.openTag !== "undefined" &&
+            currentNode.openTag.indexOf(visibleTag) !== -1) {
+            removeNode(currentNode);
+            return;
+        } else if (currentNode.openTag !== null &&
+            typeof currentNode.openTag !== "undefined" &&
+            (currentNode.openTag.indexOf("<w:t>") !== -1 || currentNode.openTag.indexOf("<w:t ") !== -1)) {
+            return;
+        }
+        for (let index = 0; index < currentNode.listOfDescendentNodes.length; index++) {
+            node = currentNode.listOfDescendentNodes[index];
+            unmarkText(node, visibleTag, logicTag);
+
+            if ((node.openTag === null || typeof node.openTag === "undefined" || node.openTag === []) &&
+                (node.textBody === null || typeof node.textBody === "undefined" || node.textBody.length > 0)) {
+                index--;
+            }
+        }
+    } catch (error) {
+        errorHandler(error);
     }
 }

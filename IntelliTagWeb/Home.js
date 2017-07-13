@@ -18,7 +18,7 @@
 
 //            LoadSettings();
 
-//            initialiseDemoText();
+            initialiseDemoText();
 
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");
@@ -64,17 +64,21 @@
     }
 
     function setTextArea(textValue) {
-        var textArea = document.getElementById("dataOOXML");
-        if (!textArea)
-            return;
-        var currentResult = textValue;
-        while (textArea.hasChildNodes()) {
-            textArea.removeChild(textArea.lastChild);
+        try {
+            var textArea = document.getElementById("dataOOXML");
+            if (!textArea)
+                return;
+            var currentResult = textValue;
+            while (textArea.hasChildNodes()) {
+                textArea.removeChild(textArea.lastChild);
+            }
+            setTimeout(function() {
+                    textArea.appendChild(document.createTextNode(currentResult));
+                },
+                400);
+        } catch (error) {
+            errorHandler(error);
         }
-        setTimeout(function() {
-                textArea.appendChild(document.createTextNode(currentResult));
-            },
-            400);
     }
 
 
@@ -98,9 +102,13 @@
 
     // Helper function for displaying notifications
     function showNotification(header, content) {
+        //try{
         $("#notification-header").text(header);
         $("#notification-body").text(content);
         messageBanner.showBanner();
         messageBanner.toggleExpansion();
+//        } catch (error) {
+//            errorHandler(error);
+//        }
     }
 })();

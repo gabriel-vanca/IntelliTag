@@ -26,45 +26,54 @@ function dataSelectorGetData(coercionType, functionsToExecute) {
     Word.run(function(context) {
 
             // Create a proxy object for the document body.
-            var range = context.document.getSelection();
+        var range = context.document.getSelection();
+
+            // Queue 
+            context.load(range, 'text');
 
             // Synchronize the document state by executing the queued commands, 
             // and return a promise to indicate task completion.
             return context.sync().then(function() {
 
-                    // Queue 
-                    context.load(range, 'text');
+                    
 
                     var readData;
                     if (coercionType === Office.CoercionType.Ooxml) {
                         // Queue a commmand to get the OOXML contents of the body.
                         readData = range.getOoxml();
+                        // Queue 
+//                        context.load(readData, 'text');
                     } else if (coercionType === Office.CoercionType.Text) {
                         readData = range;
                         // Queue 
-                        context.load(readData, 'text');
+//                        context.load(readData, 'text');
                     }
-                
+
                     // Synchronize the document state by executing the queued commands, 
                     // and return a promise to indicate task completion.
                     return context.sync().then(function() {
 
-                        // Update the status message.
-                        //  setTimeout(function () {
-                        if (coercionType === Office.CoercionType.Text) {
-                            dataSelectorSelectedText = readData.text;
-                        } else if (coercionType === Office.CoercionType.Ooxml) {
-                            dataSelectorSelectedOOXML = readData.value;
-                            structureOOXML();
-                        }
+                            // Update the status message.
+                            //  setTimeout(function () {
+                            try {
+                                if (coercionType === Office.CoercionType.Text) {
+                                    dataSelectorSelectedText = readData.text;
+                                } else if (coercionType === Office.CoercionType.Ooxml) {
+                                    dataSelectorSelectedOOXML = readData.value;
+                                    structureOOXML();
+                                }
+                            } catch (error) {
+                                errorHandler(error);
+                            }
 
-                        if (functionsToExecute.length > 0) {
-                            // Remove and execute the first function on the queue
-                            functionsToExecute.shift()();
-                        }
-                        //  }, 400);
+                            if (functionsToExecute.length > 0) {
+                                // Remove and execute the first function on the queue
+                                functionsToExecute.shift()();
+                            }
+                            //  }, 400);
 
-                    });
+                        })
+                        .catch(errorHandler);
                 })
                 .catch(errorHandler);
         })

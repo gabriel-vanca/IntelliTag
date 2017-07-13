@@ -203,6 +203,16 @@
           
             </CustomTab>
           </ExtensionPoint>
+        
+<!--          <ExtensionPoint xsi:type="ContextMenu">-->
+<!--            <OfficeMenu id="ContextMenuText">-->
+<!--              <Control xsi:type="Menu" id="ContextMenu2">-->
+<!--                ~1~ information about the control @1@-->
+<!--              </Control>-->
+<!--              ~1~ other controls, as needed @1@-->
+<!--            </OfficeMenu>-->
+<!--          </ExtensionPoint>-->
+        
         </DesktopFormFactor>
       </Host>
     </Hosts>
