@@ -203,12 +203,88 @@
           
             </CustomTab>
           </ExtensionPoint>
-        
+
 <!--          <ExtensionPoint xsi:type="ContextMenu">-->
 <!--            <OfficeMenu id="ContextMenuText">-->
-<!--              <Control xsi:type="Menu" id="ContextMenu2">-->
-<!--                ~1~ information about the control @1@-->
+<!---->
+<!--              <Control xsi:type="Button" id="ArchCloud.IntelliTag.TemporalContextButton">-->
+<!--                <Label resid="TemporalButton.Label" />-->
+<!--                <Supertip>-->
+<!--                  ~1~ ToolTip title. resid must point to a ShortString resource. @1@-->
+<!--                  <Title resid="TemporalButton.Label" />-->
+<!--                  ~1~ ToolTip description. resid must point to a LongString resource. @1@-->
+<!--                  <Description resid="TemporalButton.Tooltip" />-->
+<!--                </Supertip>-->
+<!--                <Icon>-->
+<!--                  <bt:Image size="16" resid="Contoso.tpicon_16x16" />-->
+<!--                  <bt:Image size="32" resid="Contoso.tpicon_32x32" />-->
+<!--                  <bt:Image size="80" resid="Contoso.tpicon_80x80" />-->
+<!--                </Icon>-->
+<!--                ~1~This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFuncion or ShowTaskpane@1@-->
+<!--                ~1~Look at the FunctionFile.html page for reference on how to implement the function @1@-->
+<!--                <Action xsi:type="ExecuteFunction">-->
+<!--                  ~1~Name of the function to call. This function needs to exist in the global DOM namespace of the function file@1@-->
+<!--                  <FunctionName>SetUnsetTemporal_OnClick</FunctionName>-->
+<!--                </Action>-->
 <!--              </Control>-->
+<!--              ~1~ other controls, as needed @1@-->
+<!--            </OfficeMenu>-->
+<!---->
+<!--          </ExtensionPoint>-->
+
+         
+<!--          <ExtensionPoint xsi:type="ContextMenu">-->
+<!--            <OfficeMenu id="ContextMenuText">-->
+<!--             -->
+<!--              ~1~Control. It can be of type "Button" or "Menu" @1@-->
+<!--              <Control xsi:type="Menu" id="ArchCloud.IntelliTag.ContextMenu">-->
+<!--                ~1~ information about the control @1@-->
+<!--                <Label resid="IntelliTag.ContextMenu.Label" />-->
+<!--~1~                <Tooltip resid="IntelligTag.ContextMenu.Tooltip" />@1@-->
+<!--                -->
+<!--                <Supertip>-->
+<!--                  ~1~ ToolTip title. resid must point to a ShortString resource. @1@-->
+<!--                  <Title resid="IntelliTag.ContextMenu.Label" />-->
+<!--                  ~1~ ToolTip description. resid must point to a LongString resource. @1@-->
+<!--                  <Description resid="IntelligTag.ContextMenu.Tooltip" />-->
+<!--                </Supertip>-->
+<!---->
+<!--                <Icon>-->
+<!--                  <bt:Image size="16" resid="Contoso.tpicon_16x16" />-->
+<!--                  <bt:Image size="32" resid="Contoso.tpicon_32x32" />-->
+<!--                  <bt:Image size="80" resid="Contoso.tpicon_80x80" />-->
+<!--                </Icon>-->
+<!---->
+<!--                <Items>-->
+<!---->
+<!--                  <Item id="ArchCloud.IntelliTag.TemporalContextButton">-->
+<!--                    <Label resid="TemporalButton.Label" />-->
+<!--                    <Supertip>-->
+<!--                      ~1~ ToolTip title. resid must point to a ShortString resource. @1@-->
+<!--                      <Title resid="TemporalButton.Label" />-->
+<!--                      ~1~ ToolTip description. resid must point to a LongString resource. @1@-->
+<!--                      <Description resid="TemporalButton.Tooltip" />-->
+<!--                    </Supertip>-->
+<!--                    <Icon>-->
+<!--                      <bt:Image size="16" resid="Contoso.tpicon_16x16" />-->
+<!--                      <bt:Image size="32" resid="Contoso.tpicon_32x32" />-->
+<!--                      <bt:Image size="80" resid="Contoso.tpicon_80x80" />-->
+<!--                    </Icon>-->
+<!--                    ~1~This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFuncion or ShowTaskpane@1@-->
+<!--                    ~1~Look at the FunctionFile.html page for reference on how to implement the function @1@-->
+<!--                    <Action xsi:type="ExecuteFunction">-->
+<!--                      ~1~Name of the function to call. This function needs to exist in the global DOM namespace of the function file@1@-->
+<!--                      <FunctionName>SetUnsetTemporal_OnClick</FunctionName>-->
+<!--                    </Action>-->
+<!--                  </Item>-->
+<!---->
+<!---->
+<!--                </Items>-->
+<!---->
+<!--              </Control>-->
+<!---->
+<!---->
+<!---->
 <!--              ~1~ other controls, as needed @1@-->
 <!--            </OfficeMenu>-->
 <!--          </ExtensionPoint>-->
@@ -231,13 +307,15 @@
       </bt:Urls>
       <!-- ShortStrings max characters==125. -->
       <bt:ShortStrings>
-        <bt:String id="DeonticButton.Label" DefaultValue="Deontic" />
-        <bt:String id="TemporalButton.Label" DefaultValue="Temporal" />
-        <bt:String id="OperationalButton.Label" DefaultValue="Operational" />
+        <bt:String id="DeonticButton.Label" DefaultValue="Rights and Obligations" />
+        <bt:String id="TemporalButton.Label" DefaultValue="Times and Durations" />
+        <bt:String id="OperationalButton.Label" DefaultValue="Processes and Actions" />
         <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="OOXML Editor" />
         <bt:String id="Contoso.Group1Label" DefaultValue="IntelliTag Logics" />
         <bt:String id="Contoso.Group3Label" DefaultValue="Developer Options" />
         <bt:String id="Contoso.Tab1.Label" DefaultValue="IntelliTag" />
+        <bt:String id="IntelliTag.ContextMenu.Label" DefaultValue="IntelliTag" />
+        <bt:String id="IntelligTag.ContextMenu.Tooltip" DefaultValue="IntelliTag Logics" />
         <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with IntelliTag!" />
       </bt:ShortStrings>
       <!-- LongStrings max characters==250. -->

@@ -25,8 +25,14 @@ function dataSelectorGetData(coercionType, functionsToExecute) {
     // Run a batch operation against the Word Javascript object model.
     Word.run(function(context) {
 
-            // Create a proxy object for the document body.
-        var range = context.document.getSelection();
+            try {
+
+                // Create a proxy object for the document body.
+                var range = context.document.getSelection();
+
+            } catch (error) {
+                errorHandler(error);
+            }
 
             // Queue 
             context.load(range, 'text');
@@ -35,18 +41,22 @@ function dataSelectorGetData(coercionType, functionsToExecute) {
             // and return a promise to indicate task completion.
             return context.sync().then(function() {
 
-                    
+                    try {
 
-                    var readData;
-                    if (coercionType === Office.CoercionType.Ooxml) {
-                        // Queue a commmand to get the OOXML contents of the body.
-                        readData = range.getOoxml();
-                        // Queue 
+                        var readData;
+                        if (coercionType === Office.CoercionType.Ooxml) {
+                            // Queue a commmand to get the OOXML contents of the body.
+                            readData = range.getOoxml();
+                            // Queue 
 //                        context.load(readData, 'text');
-                    } else if (coercionType === Office.CoercionType.Text) {
-                        readData = range;
-                        // Queue 
+                        } else if (coercionType === Office.CoercionType.Text) {
+                            readData = range;
+                            // Queue 
 //                        context.load(readData, 'text');
+                        }
+
+                    } catch (error) {
+                        errorHandler(error);
                     }
 
                     // Synchronize the document state by executing the queued commands, 
@@ -166,10 +176,16 @@ function dataSelectorSetData(coercionType, dataSource, functionsToExecute) {
         // 3. A callback function that lets us know if it succeeded.
 
         // Run a batch operation against the Word object model.
-        Word.run(function(context) {
+        Word.run(function (context) {
+
+            try{
 
                 // Create a proxy object for the document body.
                 var range = context.document.getSelection();
+
+            } catch (error) {
+                errorHandler(error);
+            }
 
                 // Queue 
                 context.load(range, 'text');
@@ -182,12 +198,18 @@ function dataSelectorSetData(coercionType, dataSource, functionsToExecute) {
                         // Queue a commmand to insert OOXML in to the beginning of the body.
                         var result;
 
-                        if (coercionType === Office.CoercionType.Ooxml) {
-                            result = range.insertOoxml(dataToBeSet, Word.InsertLocation.replace);
-                        } else {
+                        try {
+
                             if (coercionType === Office.CoercionType.Ooxml) {
-                                result = range.insertText(dataToBeSet, Word.InsertLocation.replace);
+                                result = range.insertOoxml(dataToBeSet, Word.InsertLocation.replace);
+                            } else {
+                                if (coercionType === Office.CoercionType.Ooxml) {
+                                    result = range.insertText(dataToBeSet, Word.InsertLocation.replace);
+                                }
                             }
+
+                        } catch (error) {
+                            errorHandler(error);
                         }
 
                         // Queue 

@@ -18,7 +18,7 @@
 
 //            LoadSettings();
 
-            initialiseDemoText();
+//            initialiseDemoText();
 
             $('#GetOOXML-button-text').text("Get OOXML!");
             $('#SetOOXML-button-text').text("Set OOXML!");

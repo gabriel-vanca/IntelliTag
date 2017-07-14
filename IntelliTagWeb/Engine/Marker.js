@@ -10,7 +10,7 @@
     CYAN: {
         Text: "cyan",
         Hex: "00FFFF"
-    },
+    }
 };
 
 function setDeonticMarker(functionsToExecute) {
