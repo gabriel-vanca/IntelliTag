@@ -21,9 +21,9 @@
   <Description DefaultValue="IntelliTag"/>
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
 <!--  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />-->
-  <IconUrl DefaultValue="~remoteAppUrl/Images/SmartTag32x32.png" />
+  <IconUrl DefaultValue="https://intellitag.us/Images/SmartTag32x32.png" />
 
-  <SupportUrl DefaultValue="http://www.contoso.com" /> 
+  <SupportUrl DefaultValue="https://intellitag.us" /> 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
     <AppDomain>AppDomain1</AppDomain>
@@ -31,14 +31,23 @@
     <AppDomain>AppDomain3</AppDomain>
   </AppDomains>
   <!--End Basic Settings. -->
-
+  
   <!--Begin TaskPane Mode integration. This section is used if there are no VersionOverrides or if the Office client version does not support add-in commands. -->
   <Hosts>
     <Host Name="Document" />
   </Hosts>
+
+  <Requirements>
+
+    <Methods>
+      <Method Name="Document.getSelectedDataAsync"/>
+<!--      <Method Name="getOoxml"/>-->
+    </Methods>
+  </Requirements>
+  
   <DefaultSettings>
-<!--    <SourceLocation DefaultValue="~remoteAppUrl/Functions/FunctionFile.html" />-->
-    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />
+<!--    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />-->
+    <SourceLocation DefaultValue="https://intellitag.us/Home.html" />
   </DefaultSettings>
   <!-- End TaskPane Mode integration.  -->
 
