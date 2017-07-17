@@ -77,6 +77,8 @@
     <Content Include="Objects\Graph.js" />
     <Content Include="packages.config" />
     <Content Include="Example Document\ISDA 2002 Master Agreement.docx" />
+    <None Include="Properties\PublishProfiles\IntelliTag - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\IntelliTag - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

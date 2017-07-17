@@ -20,10 +20,10 @@
   <DisplayName DefaultValue="IntelliTag" />
   <Description DefaultValue="IntelliTag"/>
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
-<!--  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />-->
-  <IconUrl DefaultValue="https://intellitag.us/Images/SmartTag32x32.png" />
+  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+<!--  <IconUrl DefaultValue="https://intellitag.azurewebsites.net/Images/SmartTag32x32.png" />-->
 
-  <SupportUrl DefaultValue="https://intellitag.us" /> 
+  <SupportUrl DefaultValue="https://intellitag.azurewebsites.net/" /> 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
     <AppDomain>AppDomain1</AppDomain>
@@ -46,8 +46,8 @@
   </Requirements>
   
   <DefaultSettings>
-<!--    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />-->
-    <SourceLocation DefaultValue="https://intellitag.us/Home.html" />
+    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />
+<!--    <SourceLocation DefaultValue="https://intellitag.azurewebsites.net/Home.html" />-->
   </DefaultSettings>
   <!-- End TaskPane Mode integration.  -->
 
